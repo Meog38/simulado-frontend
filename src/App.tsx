@@ -79,7 +79,7 @@ function App({ apiUrl }: { apiUrl?: string }) {
       setIsAdmin(tokenHasRole(token, rolesClaim, "ADMIN"));
       if (!apiUrl) {
         setAvaliacoes([]);
-        setError("Login configurado. A listagem será habilitada quando a API tiver uma URL HTTPS pública.");
+        setError("Login configurado. Configure VITE_API_URL para habilitar a listagem.");
         return;
       }
       setAvaliacoes(await listarAvaliacoes(apiUrl, token));
@@ -101,7 +101,7 @@ function App({ apiUrl }: { apiUrl?: string }) {
     setIsSubmitting(true);
 
     try {
-      if (!apiUrl) throw new Error("A API ainda não tem uma URL HTTPS pública configurada.");
+      if (!apiUrl) throw new Error("A API ainda não tem uma URL configurada.");
       const token = await getAccessTokenSilently();
       if (!token) throw new Error("O Auth0 não retornou um token para acessar a API.");
       const criada = await criarAvaliacao(apiUrl, token, form);

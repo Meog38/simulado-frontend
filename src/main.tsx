@@ -42,7 +42,12 @@ if (!config.domain || !config.clientId || !config.audience) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }}
       >
-        <App apiUrl={import.meta.env.VITE_API_URL} />
+        <App
+          apiUrl={
+            import.meta.env.VITE_API_URL ||
+            (import.meta.env.PROD ? "/api" : undefined)
+          }
+        />
       </Auth0Provider>
     </React.StrictMode>,
   );
