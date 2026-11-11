@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+const DEFAULT_API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export interface Tarefa {
   id: number;
@@ -16,8 +16,8 @@ export interface CriarTarefaPayload {
   emailUsuario?: string;
 }
 
-export async function listarTarefas(token: string): Promise<Tarefa[]> {
-  const response = await fetch(`${API_BASE}/tarefa`, {
+export async function listarTarefas(token: string, apiUrl = DEFAULT_API_BASE): Promise<Tarefa[]> {
+  const response = await fetch(`${apiUrl}/tarefa`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -31,8 +31,8 @@ export async function listarTarefas(token: string): Promise<Tarefa[]> {
   return response.json();
 }
 
-export async function criarTarefa(token: string, payload: CriarTarefaPayload): Promise<Tarefa> {
-  const response = await fetch(`${API_BASE}/tarefa`, {
+export async function criarTarefa(token: string, payload: CriarTarefaPayload, apiUrl = DEFAULT_API_BASE): Promise<Tarefa> {
+  const response = await fetch(`${apiUrl}/tarefa`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -47,8 +47,8 @@ export async function criarTarefa(token: string, payload: CriarTarefaPayload): P
   return response.json();
 }
 
-export async function deletarTarefa(token: string, id: number): Promise<void> {
-  const response = await fetch(`${API_BASE}/tarefa?id=${id}`, {
+export async function deletarTarefa(token: string, id: number, apiUrl = DEFAULT_API_BASE): Promise<void> {
+  const response = await fetch(`${apiUrl}/tarefa?id=${id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,

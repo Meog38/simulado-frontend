@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Tarefa, listarTarefas, criarTarefa, deletarTarefa } from './api/tarefas';
+import { type Tarefa, listarTarefas, criarTarefa, deletarTarefa } from './api/tarefas';
 
-export default function App() {
+interface AppProps {
+  apiUrl?: string;
+}
+
+export default function App({ apiUrl }: AppProps) {
   const { isAuthenticated, isLoading, user, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
 
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
@@ -12,12 +16,18 @@ export default function App() {
   const [erro, setErro] = useState<string | null>(null);
   const [carregandoLista, setCarregandoLista] = useState(false);
 
+  const obterToken = async (): Promise<string> => {
+    const token = await getAccessTokenSilently();
+    if (!token) throw new Error('Token de acesso não obtido.');
+    return token;
+  };
+
   const carregar = async () => {
     try {
       setErro(null);
       setCarregandoLista(true);
-      const token = await getAccessTokenSilently();
-      const dados = await listarTarefas(token);
+      const token = await obterToken();
+      const dados = await listarTarefas(token, apiUrl);
       setTarefas(dados);
     } catch (err: any) {
       setErro(err.message || 'Falha ao carregar tarefas.');
@@ -36,13 +46,13 @@ export default function App() {
     e.preventDefault();
     try {
       setErro(null);
-      const token = await getAccessTokenSilently();
+      const token = await obterToken();
       await criarTarefa(token, {
         titulo,
         descricao,
         prioridade,
         emailUsuario: user?.email,
-      });
+      }, apiUrl);
       setTitulo('');
       setDescricao('');
       setPrioridade('Média');
@@ -55,8 +65,8 @@ export default function App() {
   const handleDeletar = async (id: number) => {
     try {
       setErro(null);
-      const token = await getAccessTokenSilently();
-      await deletarTarefa(token, id);
+      const token = await obterToken();
+      await deletarTarefa(token, id, apiUrl);
       await carregar();
     } catch (err: any) {
       setErro(err.message || 'Falha ao deletar tarefa.');
