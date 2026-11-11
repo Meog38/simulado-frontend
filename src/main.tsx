@@ -8,12 +8,11 @@ const config = {
   domain: import.meta.env.VITE_AUTH0_DOMAIN,
   clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
   audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-  apiUrl: import.meta.env.VITE_API_URL,
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 
-if (!config.domain || !config.clientId || !config.audience || !config.apiUrl) {
+if (!config.domain || !config.clientId || !config.audience) {
   root.render(
     <main className="setup-screen">
       <div className="setup-card">
@@ -21,9 +20,9 @@ if (!config.domain || !config.clientId || !config.audience || !config.apiUrl) {
         <p className="eyebrow">CONFIGURAÇÃO NECESSÁRIA</p>
         <h1>Conecte seu projeto ao Auth0</h1>
         <p>
-          Defina <code>VITE_AUTH0_DOMAIN</code>, <code>VITE_AUTH0_CLIENT_ID</code>,{" "}
-          <code>VITE_AUTH0_AUDIENCE</code> e <code>VITE_API_URL</code> no arquivo <code>.env</code>{" "}
-          local ou nas variáveis de ambiente da Vercel.
+          Defina <code>VITE_AUTH0_DOMAIN</code>, <code>VITE_AUTH0_CLIENT_ID</code> e{" "}
+          <code>VITE_AUTH0_AUDIENCE</code> no arquivo <code>.env</code> local ou nas variáveis de
+          ambiente da Vercel.
         </p>
       </div>
     </main>,
@@ -43,7 +42,7 @@ if (!config.domain || !config.clientId || !config.audience || !config.apiUrl) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }}
       >
-        <App apiUrl={config.apiUrl} />
+        <App apiUrl={import.meta.env.VITE_API_URL} />
       </Auth0Provider>
     </React.StrictMode>,
   );

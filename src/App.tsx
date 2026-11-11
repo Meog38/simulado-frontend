@@ -47,7 +47,7 @@ function iniciais(email: string) {
     .join("");
 }
 
-function App({ apiUrl }: { apiUrl: string }) {
+function App({ apiUrl }: { apiUrl?: string }) {
   const {
     isAuthenticated,
     isLoading: authLoading,
@@ -77,6 +77,11 @@ function App({ apiUrl }: { apiUrl: string }) {
       const token = await getAccessTokenSilently();
       if (!token) throw new Error("O Auth0 não retornou um token para acessar a API.");
       setIsAdmin(tokenHasRole(token, rolesClaim, "ADMIN"));
+      if (!apiUrl) {
+        setAvaliacoes([]);
+        setError("Login configurado. A listagem será habilitada quando a API tiver uma URL HTTPS pública.");
+        return;
+      }
       setAvaliacoes(await listarAvaliacoes(apiUrl, token));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Não foi possível carregar as avaliações.");
@@ -96,6 +101,7 @@ function App({ apiUrl }: { apiUrl: string }) {
     setIsSubmitting(true);
 
     try {
+      if (!apiUrl) throw new Error("A API ainda não tem uma URL HTTPS pública configurada.");
       const token = await getAccessTokenSilently();
       if (!token) throw new Error("O Auth0 não retornou um token para acessar a API.");
       const criada = await criarAvaliacao(apiUrl, token, form);
