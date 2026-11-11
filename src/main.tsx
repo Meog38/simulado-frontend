@@ -5,9 +5,9 @@ import App from "./App";
 import "./styles.css";
 
 const config = {
-  domain: import.meta.env.VITE_AUTH0_DOMAIN,
-  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
-  audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+  domain: import.meta.env.VITE_AUTH0_DOMAIN || "dev-cfz5e0arc3y56xsi.us.auth0.com",
+  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID || "oou8D4bvh1SLe5c8hasZL01G66V41y0n",
+  audience: import.meta.env.VITE_AUTH0_AUDIENCE || "https://simulado-backend",
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -34,7 +34,7 @@ if (!config.domain || !config.clientId || !config.audience) {
         domain={config.domain}
         clientId={config.clientId}
         authorizationParams={{
-          redirect_uri: `${window.location.origin}/`,
+          redirect_uri: window.location.origin,
           audience: config.audience,
           scope: "openid profile email",
         }}

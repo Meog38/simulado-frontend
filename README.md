@@ -12,7 +12,7 @@ Aplicação React + TypeScript para consultar e cadastrar avaliações, usando A
 
 ## Executar localmente
 
-1. Copie `.env.example` para `.env`. O domínio e o Client ID da SPA Auth0 já estão preenchidos; `VITE_API_URL` ficará pendente até a API ter um endereço HTTPS público.
+1. Opcionalmente, copie `.env.example` para `.env` para sobrescrever a configuração Auth0 padrão. `VITE_API_URL` ficará pendente até a API ter um endereço HTTPS público.
 2. No Auth0, abra **Applications > Applications**, crie ou selecione uma aplicação do tipo **Single Page Application** e, em **Settings**, configure:
    - **Allowed Callback URLs:** `http://localhost:5173` e o domínio Vercel depois do deploy.
    - **Allowed Logout URLs:** `http://localhost:5173` e o domínio Vercel depois do deploy.
@@ -29,9 +29,9 @@ Aplicação React + TypeScript para consultar e cadastrar avaliações, usando A
 
 | Variável | Valor |
 |---|---|
-| `VITE_AUTH0_DOMAIN` | `dev-cfz5e0arc3y56xsi.us.auth0.com`. |
-| `VITE_AUTH0_CLIENT_ID` | Client ID da SPA `Sistema Avaliações - Front`, configurado em `.env.example`. |
-| `VITE_AUTH0_AUDIENCE` | Identifier da API Auth0: `https://simulado-backend`. |
+| `VITE_AUTH0_DOMAIN` | Domínio Auth0; padrão `dev-cfz5e0arc3y56xsi.us.auth0.com`. |
+| `VITE_AUTH0_CLIENT_ID` | Client ID da SPA; padrão configurado em `.env.example`. |
+| `VITE_AUTH0_AUDIENCE` | Identifier da API Auth0; padrão `https://simulado-backend`. |
 | `VITE_AUTH0_ROLES_CLAIM` | Claim de roles usada pela Action; o padrão é `https://simulado-backend.example.com/roles`. |
 | `VITE_API_URL` | URL base HTTPS da API, sem `/avaliacoes` no final. |
 
@@ -41,7 +41,7 @@ O botão de cadastro só aparece se o access token incluir a role `ADMIN`. A API
 
 1. Envie este diretório para o repositório GitHub `simulado-frontend`.
 2. Na Vercel, escolha **Add New > Project**, importe o repositório e use o preset **Vite**. O `vercel.json` define `npm run build`, saída `dist` e `npm install`.
-3. Em **Project Settings > Environment Variables**, cadastre `VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID`, `VITE_AUTH0_AUDIENCE`, `VITE_AUTH0_ROLES_CLAIM` e `VITE_API_URL` para Production (e Preview, se necessário). Essas variáveis são incorporadas ao bundle do navegador; não coloque segredos nelas.
+3. Opcionalmente, em **Project Settings > Environment Variables**, configure `VITE_AUTH0_DOMAIN`, `VITE_AUTH0_CLIENT_ID`, `VITE_AUTH0_AUDIENCE`, `VITE_AUTH0_ROLES_CLAIM` e `VITE_API_URL` para Production (e Preview, se necessário). Os três primeiros já têm valores padrão para este projeto. Essas variáveis são incorporadas ao bundle do navegador; não coloque segredos nelas.
 4. Faça o primeiro deploy do site e copie o domínio HTTPS atribuído pela Vercel. O site de login poderá ser publicado antes da API, mas a listagem e o cadastro só funcionarão depois que ela tiver uma URL pública HTTPS.
 5. Adicione o domínio Vercel a **Allowed Callback URLs**, **Allowed Logout URLs** e **Allowed Web Origins** da SPA no Auth0.
 6. Configure `CORS_ALLOWED_ORIGINS` no backend com a origem exata do site, por exemplo `https://simulado-frontend.vercel.app`, e reinicie o serviço.

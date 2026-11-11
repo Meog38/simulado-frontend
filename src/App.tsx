@@ -201,7 +201,7 @@ function App({ apiUrl }: { apiUrl?: string }) {
             title="Sair"
             aria-label="Sair"
             onClick={() =>
-              logout({ logoutParams: { returnTo: `${window.location.origin}/` } })
+              logout({ logoutParams: { returnTo: window.location.origin } })
             }
           >
             <LogOut size={17} />
