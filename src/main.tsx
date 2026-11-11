@@ -34,7 +34,7 @@ if (!config.domain || !config.clientId || !config.audience) {
         domain={config.domain}
         clientId={config.clientId}
         authorizationParams={{
-          redirect_uri: window.location.origin,
+          redirect_uri: `${window.location.origin}/`,
           audience: config.audience,
           scope: "openid profile email",
         }}

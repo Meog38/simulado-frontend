@@ -200,7 +200,9 @@ function App({ apiUrl }: { apiUrl?: string }) {
             className="icon-button logout-button"
             title="Sair"
             aria-label="Sair"
-            onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+            onClick={() =>
+              logout({ logoutParams: { returnTo: `${window.location.origin}/` } })
+            }
           >
             <LogOut size={17} />
           </button>
